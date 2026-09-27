@@ -1,0 +1,1211 @@
+[
+  {
+    "id": "table.Campaign",
+    "label": "Create table \"Campaign\"",
+    "summary": "Creates table \"Campaign\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Campaign"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Campaign\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Campaign\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Campaign\"",
+        "sql": "CREATE TABLE \"public\".\"Campaign\" (\n  \"body\" text NOT NULL,\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"hourlyLimit\" int4 DEFAULT 100 NOT NULL,\n  \"id\" text NOT NULL,\n  \"minDelaySeconds\" int4 DEFAULT 0 NOT NULL,\n  \"startAt\" timestamptz NOT NULL,\n  \"status\" text DEFAULT 'DRAFT' NOT NULL,\n  \"subject\" text NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL,\n  \"userId\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Campaign\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Campaign\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.CampaignLead",
+    "label": "Create table \"CampaignLead\"",
+    "summary": "Creates table \"CampaignLead\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "CampaignLead"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"CampaignLead\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"CampaignLead\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"CampaignLead\"",
+        "sql": "CREATE TABLE \"public\".\"CampaignLead\" (\n  \"attempts\" int4 DEFAULT 0 NOT NULL,\n  \"campaignId\" text NOT NULL,\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"errorMessage\" text,\n  \"id\" text NOT NULL,\n  \"leadId\" text NOT NULL,\n  \"scheduledAt\" timestamptz,\n  \"sentAt\" timestamptz,\n  \"status\" text DEFAULT 'PENDING' NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"CampaignLead\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"CampaignLead\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.EmailJob",
+    "label": "Create table \"EmailJob\"",
+    "summary": "Creates table \"EmailJob\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "EmailJob"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"EmailJob\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"EmailJob\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"EmailJob\"",
+        "sql": "CREATE TABLE \"public\".\"EmailJob\" (\n  \"attempts\" int4 DEFAULT 0 NOT NULL,\n  \"bullJobId\" text NOT NULL,\n  \"campaignLeadId\" text NOT NULL,\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"id\" text NOT NULL,\n  \"lastError\" text,\n  \"processedAt\" timestamptz,\n  \"scheduledAt\" timestamptz NOT NULL,\n  \"sentAt\" timestamptz,\n  \"status\" text DEFAULT 'SCHEDULED' NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"EmailJob\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"EmailJob\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.Lead",
+    "label": "Create table \"Lead\"",
+    "summary": "Creates table \"Lead\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Lead"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Lead\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Lead\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Lead\"",
+        "sql": "CREATE TABLE \"public\".\"Lead\" (\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"email\" text NOT NULL,\n  \"id\" text NOT NULL,\n  \"name\" text,\n  \"updatedAt\" timestamptz NOT NULL,\n  \"userId\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Lead\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Lead\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.OAuthAccount",
+    "label": "Create table \"OAuthAccount\"",
+    "summary": "Creates table \"OAuthAccount\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "OAuthAccount"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"OAuthAccount\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"OAuthAccount\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"OAuthAccount\"",
+        "sql": "CREATE TABLE \"public\".\"OAuthAccount\" (\n  \"accessToken\" text,\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"expiresAt\" timestamptz,\n  \"id\" text NOT NULL,\n  \"provider\" text NOT NULL,\n  \"providerAccountId\" text NOT NULL,\n  \"refreshToken\" text,\n  \"updatedAt\" timestamptz NOT NULL,\n  \"userId\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"OAuthAccount\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"OAuthAccount\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.SlackIntegration",
+    "label": "Create table \"SlackIntegration\"",
+    "summary": "Creates table \"SlackIntegration\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "SlackIntegration"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"SlackIntegration\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"SlackIntegration\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"SlackIntegration\"",
+        "sql": "CREATE TABLE \"public\".\"SlackIntegration\" (\n  \"accessToken\" text,\n  \"connectedAt\" timestamptz,\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"id\" text NOT NULL,\n  \"slackUserId\" text,\n  \"teamId\" text,\n  \"updatedAt\" timestamptz NOT NULL,\n  \"userId\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"SlackIntegration\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"SlackIntegration\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.CampaignLead.CampaignLead_campaignId_leadId_key",
+    "label": "Add unique constraint on \"CampaignLead\" (campaignId, leadId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "CampaignLead_campaignId_leadId_key",
+        "table": "CampaignLead"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"CampaignLead_campaignId_leadId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "CampaignLead_campaignId_leadId_key",
+          "public",
+          "\"public\".\"CampaignLead\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"CampaignLead_campaignId_leadId_key\"",
+        "sql": "ALTER TABLE \"public\".\"CampaignLead\" ADD CONSTRAINT \"CampaignLead_campaignId_leadId_key\" UNIQUE (\"campaignId\", \"leadId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"CampaignLead_campaignId_leadId_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "CampaignLead_campaignId_leadId_key",
+          "public",
+          "\"public\".\"CampaignLead\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.EmailJob.EmailJob_campaignLeadId_key",
+    "label": "Add unique constraint on \"EmailJob\" (campaignLeadId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "EmailJob_campaignLeadId_key",
+        "table": "EmailJob"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"EmailJob_campaignLeadId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "EmailJob_campaignLeadId_key",
+          "public",
+          "\"public\".\"EmailJob\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"EmailJob_campaignLeadId_key\"",
+        "sql": "ALTER TABLE \"public\".\"EmailJob\" ADD CONSTRAINT \"EmailJob_campaignLeadId_key\" UNIQUE (\"campaignLeadId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"EmailJob_campaignLeadId_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "EmailJob_campaignLeadId_key",
+          "public",
+          "\"public\".\"EmailJob\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.EmailJob.EmailJob_bullJobId_key",
+    "label": "Add unique constraint on \"EmailJob\" (bullJobId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "EmailJob_bullJobId_key",
+        "table": "EmailJob"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"EmailJob_bullJobId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "EmailJob_bullJobId_key",
+          "public",
+          "\"public\".\"EmailJob\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"EmailJob_bullJobId_key\"",
+        "sql": "ALTER TABLE \"public\".\"EmailJob\" ADD CONSTRAINT \"EmailJob_bullJobId_key\" UNIQUE (\"bullJobId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"EmailJob_bullJobId_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "EmailJob_bullJobId_key",
+          "public",
+          "\"public\".\"EmailJob\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.Lead.Lead_userId_email_key",
+    "label": "Add unique constraint on \"Lead\" (userId, email)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "Lead_userId_email_key",
+        "table": "Lead"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Lead_userId_email_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Lead_userId_email_key",
+          "public",
+          "\"public\".\"Lead\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"Lead_userId_email_key\"",
+        "sql": "ALTER TABLE \"public\".\"Lead\" ADD CONSTRAINT \"Lead_userId_email_key\" UNIQUE (\"userId\", \"email\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Lead_userId_email_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Lead_userId_email_key",
+          "public",
+          "\"public\".\"Lead\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.OAuthAccount.OAuthAccount_provider_providerAccountId_key",
+    "label": "Add unique constraint on \"OAuthAccount\" (provider, providerAccountId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "OAuthAccount_provider_providerAccountId_key",
+        "table": "OAuthAccount"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"OAuthAccount_provider_providerAccountId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "OAuthAccount_provider_providerAccountId_key",
+          "public",
+          "\"public\".\"OAuthAccount\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"OAuthAccount_provider_providerAccountId_key\"",
+        "sql": "ALTER TABLE \"public\".\"OAuthAccount\" ADD CONSTRAINT \"OAuthAccount_provider_providerAccountId_key\" UNIQUE (\"provider\", \"providerAccountId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"OAuthAccount_provider_providerAccountId_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "OAuthAccount_provider_providerAccountId_key",
+          "public",
+          "\"public\".\"OAuthAccount\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.SlackIntegration.SlackIntegration_userId_key",
+    "label": "Add unique constraint on \"SlackIntegration\" (userId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "SlackIntegration_userId_key",
+        "table": "SlackIntegration"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"SlackIntegration_userId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "SlackIntegration_userId_key",
+          "public",
+          "\"public\".\"SlackIntegration\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"SlackIntegration_userId_key\"",
+        "sql": "ALTER TABLE \"public\".\"SlackIntegration\" ADD CONSTRAINT \"SlackIntegration_userId_key\" UNIQUE (\"userId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"SlackIntegration_userId_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "SlackIntegration_userId_key",
+          "public",
+          "\"public\".\"SlackIntegration\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Campaign.Campaign_startAt_idx_8b06bdbe",
+    "label": "Create index \"Campaign_startAt_idx_8b06bdbe\" on \"Campaign\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Campaign_startAt_idx_8b06bdbe",
+        "table": "Campaign"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Campaign_startAt_idx_8b06bdbe\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Campaign_startAt_idx_8b06bdbe\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Campaign_startAt_idx_8b06bdbe\"",
+        "sql": "CREATE INDEX \"Campaign_startAt_idx_8b06bdbe\" ON \"public\".\"Campaign\" (\"startAt\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Campaign_startAt_idx_8b06bdbe\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Campaign_startAt_idx_8b06bdbe\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Campaign.Campaign_status_idx_e98638ab",
+    "label": "Create index \"Campaign_status_idx_e98638ab\" on \"Campaign\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Campaign_status_idx_e98638ab",
+        "table": "Campaign"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Campaign_status_idx_e98638ab\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Campaign_status_idx_e98638ab\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Campaign_status_idx_e98638ab\"",
+        "sql": "CREATE INDEX \"Campaign_status_idx_e98638ab\" ON \"public\".\"Campaign\" (\"status\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Campaign_status_idx_e98638ab\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Campaign_status_idx_e98638ab\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Campaign.Campaign_userId_idx_a489d58a",
+    "label": "Create index \"Campaign_userId_idx_a489d58a\" on \"Campaign\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Campaign_userId_idx_a489d58a",
+        "table": "Campaign"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Campaign_userId_idx_a489d58a\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Campaign_userId_idx_a489d58a\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Campaign_userId_idx_a489d58a\"",
+        "sql": "CREATE INDEX \"Campaign_userId_idx_a489d58a\" ON \"public\".\"Campaign\" (\"userId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Campaign_userId_idx_a489d58a\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Campaign_userId_idx_a489d58a\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.CampaignLead.CampaignLead_campaignId_idx_3aacd648",
+    "label": "Create index \"CampaignLead_campaignId_idx_3aacd648\" on \"CampaignLead\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "CampaignLead_campaignId_idx_3aacd648",
+        "table": "CampaignLead"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"CampaignLead_campaignId_idx_3aacd648\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"CampaignLead_campaignId_idx_3aacd648\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"CampaignLead_campaignId_idx_3aacd648\"",
+        "sql": "CREATE INDEX \"CampaignLead_campaignId_idx_3aacd648\" ON \"public\".\"CampaignLead\" (\"campaignId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"CampaignLead_campaignId_idx_3aacd648\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"CampaignLead_campaignId_idx_3aacd648\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.CampaignLead.CampaignLead_campaignId_status_idx_8403b4ac",
+    "label": "Create index \"CampaignLead_campaignId_status_idx_8403b4ac\" on \"CampaignLead\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "CampaignLead_campaignId_status_idx_8403b4ac",
+        "table": "CampaignLead"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"CampaignLead_campaignId_status_idx_8403b4ac\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"CampaignLead_campaignId_status_idx_8403b4ac\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"CampaignLead_campaignId_status_idx_8403b4ac\"",
+        "sql": "CREATE INDEX \"CampaignLead_campaignId_status_idx_8403b4ac\" ON \"public\".\"CampaignLead\" (\"campaignId\", \"status\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"CampaignLead_campaignId_status_idx_8403b4ac\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"CampaignLead_campaignId_status_idx_8403b4ac\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.CampaignLead.CampaignLead_leadId_idx_9113844c",
+    "label": "Create index \"CampaignLead_leadId_idx_9113844c\" on \"CampaignLead\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "CampaignLead_leadId_idx_9113844c",
+        "table": "CampaignLead"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"CampaignLead_leadId_idx_9113844c\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"CampaignLead_leadId_idx_9113844c\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"CampaignLead_leadId_idx_9113844c\"",
+        "sql": "CREATE INDEX \"CampaignLead_leadId_idx_9113844c\" ON \"public\".\"CampaignLead\" (\"leadId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"CampaignLead_leadId_idx_9113844c\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"CampaignLead_leadId_idx_9113844c\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.CampaignLead.CampaignLead_scheduledAt_idx_f69c1204",
+    "label": "Create index \"CampaignLead_scheduledAt_idx_f69c1204\" on \"CampaignLead\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "CampaignLead_scheduledAt_idx_f69c1204",
+        "table": "CampaignLead"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"CampaignLead_scheduledAt_idx_f69c1204\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"CampaignLead_scheduledAt_idx_f69c1204\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"CampaignLead_scheduledAt_idx_f69c1204\"",
+        "sql": "CREATE INDEX \"CampaignLead_scheduledAt_idx_f69c1204\" ON \"public\".\"CampaignLead\" (\"scheduledAt\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"CampaignLead_scheduledAt_idx_f69c1204\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"CampaignLead_scheduledAt_idx_f69c1204\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.EmailJob.EmailJob_scheduledAt_idx_f69c1204",
+    "label": "Create index \"EmailJob_scheduledAt_idx_f69c1204\" on \"EmailJob\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "EmailJob_scheduledAt_idx_f69c1204",
+        "table": "EmailJob"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"EmailJob_scheduledAt_idx_f69c1204\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"EmailJob_scheduledAt_idx_f69c1204\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"EmailJob_scheduledAt_idx_f69c1204\"",
+        "sql": "CREATE INDEX \"EmailJob_scheduledAt_idx_f69c1204\" ON \"public\".\"EmailJob\" (\"scheduledAt\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"EmailJob_scheduledAt_idx_f69c1204\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"EmailJob_scheduledAt_idx_f69c1204\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.EmailJob.EmailJob_status_idx_e98638ab",
+    "label": "Create index \"EmailJob_status_idx_e98638ab\" on \"EmailJob\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "EmailJob_status_idx_e98638ab",
+        "table": "EmailJob"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"EmailJob_status_idx_e98638ab\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"EmailJob_status_idx_e98638ab\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"EmailJob_status_idx_e98638ab\"",
+        "sql": "CREATE INDEX \"EmailJob_status_idx_e98638ab\" ON \"public\".\"EmailJob\" (\"status\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"EmailJob_status_idx_e98638ab\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"EmailJob_status_idx_e98638ab\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Lead.Lead_userId_idx_a489d58a",
+    "label": "Create index \"Lead_userId_idx_a489d58a\" on \"Lead\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Lead_userId_idx_a489d58a",
+        "table": "Lead"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Lead_userId_idx_a489d58a\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Lead_userId_idx_a489d58a\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Lead_userId_idx_a489d58a\"",
+        "sql": "CREATE INDEX \"Lead_userId_idx_a489d58a\" ON \"public\".\"Lead\" (\"userId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Lead_userId_idx_a489d58a\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Lead_userId_idx_a489d58a\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.OAuthAccount.OAuthAccount_userId_idx_a489d58a",
+    "label": "Create index \"OAuthAccount_userId_idx_a489d58a\" on \"OAuthAccount\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "OAuthAccount_userId_idx_a489d58a",
+        "table": "OAuthAccount"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"OAuthAccount_userId_idx_a489d58a\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"OAuthAccount_userId_idx_a489d58a\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"OAuthAccount_userId_idx_a489d58a\"",
+        "sql": "CREATE INDEX \"OAuthAccount_userId_idx_a489d58a\" ON \"public\".\"OAuthAccount\" (\"userId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"OAuthAccount_userId_idx_a489d58a\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"OAuthAccount_userId_idx_a489d58a\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Campaign.Campaign_userId_fkey",
+    "label": "Add foreign key \"Campaign_userId_fkey\" on \"Campaign\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Campaign_userId_fkey",
+        "table": "Campaign"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Campaign_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Campaign_userId_fkey",
+          "public",
+          "\"public\".\"Campaign\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Campaign_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Campaign\"\nADD CONSTRAINT \"Campaign_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"User\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Campaign_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Campaign_userId_fkey",
+          "public",
+          "\"public\".\"Campaign\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.CampaignLead.CampaignLead_campaignId_fkey",
+    "label": "Add foreign key \"CampaignLead_campaignId_fkey\" on \"CampaignLead\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "CampaignLead_campaignId_fkey",
+        "table": "CampaignLead"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"CampaignLead_campaignId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "CampaignLead_campaignId_fkey",
+          "public",
+          "\"public\".\"CampaignLead\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"CampaignLead_campaignId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"CampaignLead\"\nADD CONSTRAINT \"CampaignLead_campaignId_fkey\"\nFOREIGN KEY (\"campaignId\")\nREFERENCES \"public\".\"Campaign\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"CampaignLead_campaignId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "CampaignLead_campaignId_fkey",
+          "public",
+          "\"public\".\"CampaignLead\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.CampaignLead.CampaignLead_leadId_fkey",
+    "label": "Add foreign key \"CampaignLead_leadId_fkey\" on \"CampaignLead\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "CampaignLead_leadId_fkey",
+        "table": "CampaignLead"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"CampaignLead_leadId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "CampaignLead_leadId_fkey",
+          "public",
+          "\"public\".\"CampaignLead\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"CampaignLead_leadId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"CampaignLead\"\nADD CONSTRAINT \"CampaignLead_leadId_fkey\"\nFOREIGN KEY (\"leadId\")\nREFERENCES \"public\".\"Lead\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"CampaignLead_leadId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "CampaignLead_leadId_fkey",
+          "public",
+          "\"public\".\"CampaignLead\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.EmailJob.EmailJob_campaignLeadId_fkey",
+    "label": "Add foreign key \"EmailJob_campaignLeadId_fkey\" on \"EmailJob\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "EmailJob_campaignLeadId_fkey",
+        "table": "EmailJob"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"EmailJob_campaignLeadId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "EmailJob_campaignLeadId_fkey",
+          "public",
+          "\"public\".\"EmailJob\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"EmailJob_campaignLeadId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"EmailJob\"\nADD CONSTRAINT \"EmailJob_campaignLeadId_fkey\"\nFOREIGN KEY (\"campaignLeadId\")\nREFERENCES \"public\".\"CampaignLead\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"EmailJob_campaignLeadId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "EmailJob_campaignLeadId_fkey",
+          "public",
+          "\"public\".\"EmailJob\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Lead.Lead_userId_fkey",
+    "label": "Add foreign key \"Lead_userId_fkey\" on \"Lead\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Lead_userId_fkey",
+        "table": "Lead"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Lead_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Lead_userId_fkey",
+          "public",
+          "\"public\".\"Lead\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Lead_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Lead\"\nADD CONSTRAINT \"Lead_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"User\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Lead_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Lead_userId_fkey",
+          "public",
+          "\"public\".\"Lead\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.OAuthAccount.OAuthAccount_userId_fkey",
+    "label": "Add foreign key \"OAuthAccount_userId_fkey\" on \"OAuthAccount\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "OAuthAccount_userId_fkey",
+        "table": "OAuthAccount"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"OAuthAccount_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "OAuthAccount_userId_fkey",
+          "public",
+          "\"public\".\"OAuthAccount\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"OAuthAccount_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"OAuthAccount\"\nADD CONSTRAINT \"OAuthAccount_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"User\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"OAuthAccount_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "OAuthAccount_userId_fkey",
+          "public",
+          "\"public\".\"OAuthAccount\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.SlackIntegration.SlackIntegration_userId_fkey",
+    "label": "Add foreign key \"SlackIntegration_userId_fkey\" on \"SlackIntegration\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "SlackIntegration_userId_fkey",
+        "table": "SlackIntegration"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"SlackIntegration_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "SlackIntegration_userId_fkey",
+          "public",
+          "\"public\".\"SlackIntegration\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"SlackIntegration_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"SlackIntegration\"\nADD CONSTRAINT \"SlackIntegration_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"User\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"SlackIntegration_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "SlackIntegration_userId_fkey",
+          "public",
+          "\"public\".\"SlackIntegration\""
+        ]
+      }
+    ]
+  }
+]

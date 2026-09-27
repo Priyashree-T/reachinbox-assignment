@@ -1,0 +1,121 @@
+// use prisma-8
+
+model User {
+  id        String   @id @default(cuid(2))
+  email     String   @unique
+  name      String?
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt temporal.updatedAt()
+
+  campaigns       Campaign[]
+  leads           Lead[]
+  oauthAccounts   OAuthAccount[]
+  slackIntegration SlackIntegration?
+}
+
+model OAuthAccount {
+  id                String    @id @default(cuid(2))
+  userId            String
+  provider          String
+  providerAccountId String
+  accessToken       String?
+  refreshToken      String?
+  expiresAt         DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         temporal.updatedAt()
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Lead {
+  id        String   @id @default(cuid(2))
+  userId    String
+  email     String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt temporal.updatedAt()
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campaignLeads CampaignLead[]
+
+  @@unique([userId, email])
+  @@index([userId])
+}
+
+model Campaign {
+  id              String   @id @default(cuid(2))
+  userId          String
+  subject         String
+  body            String
+  status          String   @default("DRAFT")
+  startAt         DateTime
+  minDelaySeconds Int      @default(0)
+  hourlyLimit     Int      @default(100)
+  createdAt       DateTime @default(now())
+  updatedAt       temporal.updatedAt()
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campaignLeads CampaignLead[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([startAt])
+}
+
+model CampaignLead {
+  id         String    @id @default(cuid(2))
+  campaignId String
+  leadId     String
+  status     String    @default("PENDING")
+  scheduledAt DateTime?
+  sentAt      DateTime?
+  errorMessage String?
+  attempts   Int       @default(0)
+  createdAt  DateTime  @default(now())
+  updatedAt  temporal.updatedAt()
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  lead     Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  emailJob EmailJob?
+
+  @@unique([campaignId, leadId])
+  @@index([campaignId, status])
+  @@index([leadId])
+  @@index([scheduledAt])
+}
+
+model EmailJob {
+  id             String    @id @default(cuid(2))
+  campaignLeadId String    @unique
+  bullJobId      String    @unique
+  status         String    @default("SCHEDULED")
+  scheduledAt    DateTime
+  processedAt    DateTime?
+  sentAt         DateTime?
+  attempts       Int       @default(0)
+  lastError      String?
+  createdAt      DateTime  @default(now())
+  updatedAt      temporal.updatedAt()
+
+  campaignLead CampaignLead @relation(fields: [campaignLeadId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([scheduledAt])
+}
+
+model SlackIntegration {
+  id           String   @id @default(cuid(2))
+  userId       String   @unique
+  slackUserId  String?
+  teamId       String?
+  accessToken  String?
+  connectedAt  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    temporal.updatedAt()
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
